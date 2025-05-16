@@ -1,0 +1,30 @@
+site_name: "Streamlit Prueba | Dashboard Interactivo"
+site_url: https://coassolos.github.io/Streamlit-Prueba/
+repo_url: https://github.com/CoassoloS/Streamlit-Prueba
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - header.autohide
+    - toc.integrate
+  palette:
+    primary: deep purple
+    accent: lime
+  font:
+    text: Roboto
+    code: Fira Code
+plugins:
+  - search
+  - git-revision-date-localized
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+nav:
+  - Inicio: index.md
+  - Guía Rápida:
+      - "Instalación": guia/instalacion.md
+      - "Uso": guia/uso.md
+  - API: api.md
+  - Capturas: capturas.md
+  - Contribuir: contribuir.md
