@@ -17,8 +17,8 @@ jobs:
     - name: Stop existing container
       run: docker compose down || true
 
-    #- name: Build and run new container
-    # run: docker compose up -d --build
+    - name: Build and run new container
+     run: docker compose up -d --build
 
     - name: Notify on Discord
       uses: Ilshidur/action-discord@master
