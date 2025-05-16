@@ -8,34 +8,20 @@ on:
 jobs:
   deploy:
     name: Deploy on local server
-    runs-on: self-hosted  # Ejecuta en tu propio runner auto-hospedado
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Stop existing container
+      run: docker compose down || true
 
-      - name: Stop existing process (if any)
-        run: |
-          pkill -f "uvicorn main:app" || true  # Termina procesos previos (Linux)
-          # Alternativa para Windows: taskkill /IM uvicorn.exe /F
+    - name: Build and run new container
+      run: docker compose up -d --build
 
-      - name: Start FastAPI server
-        run: |
-          nohup uvicorn main:app --host 0.0.0.0 --port 8000 > server.log 2>&1 &  # Linux/Mac
-          # Para Windows: start uvicorn main:app --host 0.0.0.0 --port 8000
-
-      - name: Verify server is running
-        run: |
-          sleep 5  # Espera 5 segundos
-          curl -s http://localhost:8000/healthcheck || exit 1  # Ajusta el endpoint
-
-      - name: Notify on Discord
-        uses: Ilshidur/action-discord@master
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: "🚀 FastAPI desplegado en servidor local (sin Docker) tras merge en develop."
+    - name: Notify on Discord
+      uses: Ilshidur/action-discord@master
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        message: "🚀 FastAPI desplegado en servidor local tras merge en develop."
