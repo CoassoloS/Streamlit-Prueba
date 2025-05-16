@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  streamlit_app:
+    build: ./app
+    ports:
+      - "8501:8501"  # Mapeo de puertos (host:contenedor)
+    volumes:
+      - ./app:/app   # Montar el código para desarrollo (opcional)
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+    restart: unless-stopped
